@@ -140,7 +140,7 @@ export default function Report() {
       </div>
 
       {/* Encabezado */}
-      <motion.div className="hero" style={{ padding: '28px 30px' }} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={spring}>
+      <motion.div className="hero" style={{ padding: '28px 30px' }} initial={{ y: 16 }} animate={{ y: 0 }} transition={spring}>
         <div style={{ position: 'relative', flex: 1 }}>
           <div className="eyebrow" style={{ background: 'rgba(255,255,255,.18)', color: '#fff' }}><FileText size={16} /> Informe de comunicación verbal y no verbal</div>
           <h1>{alumno.nombre}</h1>
@@ -201,7 +201,7 @@ export default function Report() {
             <textarea className="textarea" style={{ minHeight: 110 }} placeholder="Pega aquí la respuesta completa..." value={ev.respuestaIA}
               onChange={(e) => update((x) => { x.respuestaIA = e.target.value })} />
             <AnimatePresence>
-              {errorIA && <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} style={{ color: 'var(--coral-deep)', fontWeight: 700, margin: '8px 0 0' }}>{errorIA}</motion.p>}
+              {errorIA && <motion.p className="entrar" style={{ color: 'var(--coral-deep)', fontWeight: 700, margin: '8px 0 0' }}>{errorIA}</motion.p>}
             </AnimatePresence>
             <Btn block variant="sun" style={{ marginTop: 12 }} icon={<ClipboardPaste size={22} />} onClick={leerRespuesta} disabled={!ev.respuestaIA.trim()}>
               Usar respuesta como sugerencia
@@ -268,7 +268,7 @@ function Seccion({ i, id, titulo, guia, valor, ia, auto, onChange }: {
         </div>
         <AnimatePresence>
           {valor.trim() && (
-            <motion.span className="badge mint" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} transition={spring}>
+            <motion.span className="badge mint" initial={{ scale: 0.5 }} animate={{ scale: 1 }} transition={spring}>
               <Check size={14} strokeWidth={3} /> Listo
             </motion.span>
           )}
@@ -278,7 +278,7 @@ function Seccion({ i, id, titulo, guia, valor, ia, auto, onChange }: {
       {[{ k: 'ia', t: ia, label: 'Sugerencia recibida', icon: <Bot size={18} /> }, { k: 'auto', t: auto, label: 'Borrador automático (según tus datos)', icon: <Wand2 size={18} /> }]
         .filter((s) => s.t && s.t !== valor)
         .map((s) => (
-          <motion.div key={s.k} className="suggest" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+          <motion.div key={s.k} className="suggest" initial={{ y: 8 }} animate={{ y: 0 }}>
             <div className="suggest-head">{s.icon} {s.label}</div>
             <p>{s.t}</p>
             <div className="row">

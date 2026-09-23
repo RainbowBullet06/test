@@ -114,9 +114,9 @@ function ModoComputadora() {
 
       {appUrl && (
         <Card>
-          <AnimatePresence mode="wait">
+          <AnimatePresence initial={false}>
             {!sesion ? (
-              <motion.div key="off" className="row" style={{ gap: 24, alignItems: 'center' }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <motion.div key="off" className="row" style={{ gap: 24, alignItems: 'center' }}>
                 <Mascot size={130} mood="wave" />
                 <div style={{ flex: '1 1 300px' }}>
                   <h2 style={{ fontSize: '1.6rem', color: 'var(--lav-800)' }}>Sincronizar evaluaciones</h2>
@@ -129,7 +129,7 @@ function ModoComputadora() {
                 </div>
               </motion.div>
             ) : (
-              <motion.div key="on" className="sync-activo" initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
+              <motion.div key="on" className="sync-activo" initial={{ scale: 0.97 }} animate={{ scale: 1 }}>
                 <div className="sync-qr">
                   <QR texto={enlace} tam={250} />
                   <span className="badge mint"><Wifi size={14} /> Conexión activa · {Math.floor(restante / 60000)}:{String(Math.floor((restante % 60000) / 1000)).padStart(2, '0')}</span>
@@ -182,7 +182,7 @@ function ModoComputadora() {
 function EstadoSync({ estado, ultimo }: { estado: 'esperando' | 'recibiendo' | 'listo'; ultimo: { r: Resultado; equipo: string } | null }) {
   return (
     <AnimatePresence initial={false}>
-      <motion.div key={estado} className={`sync-estado ${estado}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+      <motion.div key={estado} className={`sync-estado ${estado}`} initial={{ y: 8 }} animate={{ y: 0 }}>
         {estado === 'esperando' && <><Loader2 className="girar" size={22} /> Esperando al celular…</>}
         {estado === 'recibiendo' && <><Loader2 className="girar" size={22} /> Sincronizando…</>}
         {estado === 'listo' && ultimo && <><CheckCircle2 size={22} /> ¡Listo! {ultimo.equipo}: {resumen(ultimo.r)}</>}
@@ -280,7 +280,7 @@ function ModoCelular() {
 
       <Card>
         <AnimatePresence initial={false}>
-          <motion.div key={fase} className="sync-celular" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
+          <motion.div key={fase} className="sync-celular" initial={{ y: 12 }} animate={{ y: 0 }}>
             {fase === 'inicio' && (
               <>
                 <Mascot size={130} mood="wave" />

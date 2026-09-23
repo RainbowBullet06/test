@@ -17,13 +17,7 @@ export function Backdrop() {
   return (
     <div className="backdrop" aria-hidden>
       {blobs.map((b, i) => (
-        <motion.div
-          key={i}
-          className="blob"
-          style={{ width: b.s, height: b.s, left: b.x, top: b.y, background: b.c }}
-          animate={{ x: [0, 40, -20, 0], y: [0, -30, 20, 0], scale: [1, 1.08, 0.96, 1] }}
-          transition={{ duration: b.d, repeat: Infinity, ease: 'easeInOut' }}
-        />
+        <div key={i} className="blob" style={{ width: b.s, height: b.s, left: b.x, top: b.y, background: b.c, animationDuration: `${b.d}s` }} />
       ))}
       <div className="dots" />
       <div className="grain" />
@@ -50,12 +44,11 @@ export function Mascot({ size = 120, mood = 'happy' }: { size?: number; mood?: M
   }, [])
   const eyesClosed = blink || mood === 'sleep'
   return (
-    <motion.svg
+    <svg
+      className={mood === 'cheer' ? 'mascota festeja' : 'mascota'}
       width={size}
       height={size}
       viewBox="-10 -10 220 220"
-      animate={mood === 'cheer' ? { y: [0, -16, 0], rotate: [0, -6, 6, 0] } : { y: [0, -6, 0] }}
-      transition={{ duration: mood === 'cheer' ? 0.9 : 3.2, repeat: Infinity, ease: 'easeInOut' }}
       aria-hidden
     >
       <defs>
@@ -110,21 +103,20 @@ export function Mascot({ size = 120, mood = 'happy' }: { size?: number; mood?: M
         fill="#ffc857" stroke="#43237f" strokeWidth="3" strokeLinejoin="round" />
       {mood === 'think' && (
         <g fill="#a584f5">
-          <motion.circle cx="30" cy="30" r="6" animate={{ opacity: [0.2, 1, 0.2] }} transition={{ duration: 1.2, repeat: Infinity }} />
-          <motion.circle cx="16" cy="14" r="4" animate={{ opacity: [0.2, 1, 0.2] }} transition={{ duration: 1.2, repeat: Infinity, delay: 0.3 }} />
+          <circle className="parpadeo" cx="30" cy="30" r="6" />
+          <circle className="parpadeo" cx="16" cy="14" r="4" style={{ animationDelay: '.3s' }} />
         </g>
       )}
-    </motion.svg>
+    </svg>
   )
 }
 
 /* ---------------- Garabatos decorativos ---------------- */
 export function Star({ size = 28, color = '#ffc857', className, style }: { size?: number; color?: string; className?: string; style?: React.CSSProperties }) {
   return (
-    <motion.svg className={className} style={style} width={size} height={size} viewBox="0 0 24 24"
-      animate={{ rotate: [0, 15, -10, 0], scale: [1, 1.12, 1] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}>
+    <svg className={`estrella ${className ?? ''}`} style={style} width={size} height={size} viewBox="0 0 24 24">
       <path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 16.9 5.9 20.4l1.5-6.8L2.2 9l6.9-.7z" fill={color} stroke="#43237f" strokeWidth="1.6" strokeLinejoin="round" />
-    </motion.svg>
+    </svg>
   )
 }
 
@@ -183,9 +175,9 @@ export function Chips<T extends string>({
             animate={on ? { scale: [1, 1.08, 1] } : { scale: 1 }}
             transition={{ duration: 0.3 }}
           >
-            {on && <motion.span className="chip-bg" layoutId={undefined} initial={{ opacity: 0, scale: 0.6 }} animate={{ opacity: 1, scale: 1 }} transition={spring} />}
+            {on && <motion.span className="chip-bg" layoutId={undefined} initial={{ scale: 0.6 }} animate={{ scale: 1 }} transition={spring} />}
             {on && (
-              <motion.span initial={{ scale: 0, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} transition={spring}>
+              <motion.span initial={{ scale: 0.5, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} transition={spring}>
                 <Check size={18} strokeWidth={3.5} />
               </motion.span>
             )}
@@ -201,9 +193,9 @@ export function Toggle({ on, onChange, children }: { on: boolean; onChange: (v: 
   return (
     <motion.button type="button" role="checkbox" aria-checked={on} className={`chip ${on ? 'on' : ''}`} onClick={() => onChange(!on)}
       whileTap={{ scale: 0.92 }} animate={on ? { scale: [1, 1.08, 1] } : { scale: 1 }} transition={{ duration: 0.3 }}>
-      {on && <motion.span className="chip-bg" initial={{ opacity: 0, scale: 0.6 }} animate={{ opacity: 1, scale: 1 }} transition={spring} />}
+      {on && <motion.span className="chip-bg" initial={{ scale: 0.6 }} animate={{ scale: 1 }} transition={spring} />}
       {on && (
-        <motion.span initial={{ scale: 0, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} transition={spring}>
+        <motion.span initial={{ scale: 0.5, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} transition={spring}>
           <Check size={18} strokeWidth={3.5} />
         </motion.span>
       )}
@@ -215,8 +207,8 @@ export function Toggle({ on, onChange, children }: { on: boolean; onChange: (v: 
 /* ---------------- Tarjeta con aparición ---------------- */
 export function Card({ children, className = '', delay = 0, style }: { children: ReactNode; className?: string; delay?: number; style?: React.CSSProperties }) {
   return (
-    <motion.section className={`card ${className}`} style={style} initial={{ opacity: 0, y: 24, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ ...softSpring, delay }}>
+    <motion.section className={`card ${className}`} style={style} initial={{ y: 24, scale: 0.98 }}
+      animate={{ y: 0, scale: 1 }} transition={{ ...softSpring, delay }}>
       {children}
     </motion.section>
   )
@@ -238,7 +230,7 @@ export function CardTitle({ icon, color = 'var(--lav-100)', fg = 'var(--lav-600)
 
 export function PageHead({ eyebrow, title, sub, actions }: { eyebrow?: ReactNode; title: ReactNode; sub?: ReactNode; actions?: ReactNode }) {
   return (
-    <motion.header className="page-head" initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={softSpring}>
+    <motion.header className="page-head" initial={{ y: -12 }} animate={{ y: 0 }} transition={softSpring}>
       <div>
         {eyebrow && <div className="eyebrow">{eyebrow}</div>}
         <h1>{title}</h1>
@@ -254,8 +246,8 @@ export const stagger = {
   show: { transition: { staggerChildren: 0.06 } },
 }
 export const riseItem = {
-  hidden: { opacity: 0, y: 18, scale: 0.97 },
-  show: { opacity: 1, y: 0, scale: 1, transition: softSpring },
+  hidden: { y: 18, scale: 0.97 },
+  show: { y: 0, scale: 1, transition: softSpring },
 }
 
 /* ---------------- Número animado ---------------- */
@@ -282,17 +274,16 @@ export function Modal({ open, onClose, title, icon, children }: { open: boolean;
   return createPortal(
     <AnimatePresence>
       {open && (
-        <motion.div className="modal-wrap" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+        <div className="modal-wrap">
           <div className="modal-bg" onClick={onClose} />
-          <motion.div className="modal" role="dialog" aria-modal initial={{ y: 60, scale: 0.94, opacity: 0 }}
-            animate={{ y: 0, scale: 1, opacity: 1 }} exit={{ y: 40, scale: 0.96, opacity: 0 }} transition={spring}>
+          <div className="modal entrar" role="dialog" aria-modal>
             <div className="row" style={{ alignItems: 'flex-start' }}>
               <h2 style={{ flex: 1 }}>{icon}{title}</h2>
               <button className="icon-btn" onClick={onClose} aria-label="Cerrar"><X size={22} /></button>
             </div>
             {children}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       )}
     </AnimatePresence>,
     document.body,
@@ -315,15 +306,12 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     <ToastCtx.Provider value={push}>
       {children}
       <div className="toasts" aria-live="polite">
-        <AnimatePresence>
-          {items.map((t) => (
-            <motion.div key={t.id} className={`toast ${t.kind}`} layout initial={{ y: -30, opacity: 0, scale: 0.9 }}
-              animate={{ y: 0, opacity: 1, scale: 1 }} exit={{ y: -20, opacity: 0, scale: 0.9 }} transition={spring}>
-              <span className="t-ico">{t.kind === 'ok' ? <Check size={20} strokeWidth={3} /> : <CircleAlert size={20} />}</span>
-              {t.text}
-            </motion.div>
-          ))}
-        </AnimatePresence>
+        {items.map((t) => (
+          <div key={t.id} className={`toast entrar ${t.kind}`}>
+            <span className="t-ico">{t.kind === 'ok' ? <Check size={20} strokeWidth={3} /> : <CircleAlert size={20} />}</span>
+            {t.text}
+          </div>
+        ))}
       </div>
     </ToastCtx.Provider>
   )

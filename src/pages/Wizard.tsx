@@ -92,8 +92,8 @@ export default function Wizard() {
       <div className="row" style={{ marginBottom: 14 }}>
         <Btn variant="ghost" size="sm" icon={<ArrowLeft size={20} />} onClick={() => navigate(alumno ? `/alumnos/${alumno.id}` : '/')}>Salir</Btn>
         <div className="spacer" />
-        <AnimatePresence mode="wait">
-          <motion.span key={String(saved)} className={`badge ${saved ? 'mint' : 'sun'}`} initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 6 }}>
+        <AnimatePresence initial={false}>
+          <motion.span key={String(saved)} className={`badge ${saved ? 'mint' : 'sun'}`} initial={{ y: -6 }} animate={{ y: 0 }}>
             {saved ? <><Check size={14} strokeWidth={3} /> Guardado</> : 'Guardando...'}
           </motion.span>
         </AnimatePresence>
@@ -122,9 +122,9 @@ export default function Wizard() {
         ))}
       </div>
 
-      <AnimatePresence mode="wait" custom={dir}>
-        <motion.div key={paso} custom={dir}
-          initial={{ opacity: 0, x: dir * 60 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: dir * -60 }}
+      <AnimatePresence initial={false}>
+        <motion.div key={paso}
+          initial={{ x: dir * 40 }} animate={{ x: 0 }}
           transition={{ type: 'spring', stiffness: 260, damping: 28 }}>
           {paso === 0 && <PasoDatos ev={ev} update={update} />}
           {paso === 1 && <PasoFono t={ev.test} ut={ut} />}
@@ -213,7 +213,7 @@ function PasoFono({ t, ut }: { t: TestData; ut: UT }) {
                 style={{ textAlign: 'left', cursor: 'pointer', border: `3px solid ${on ? 'var(--lav-500)' : 'transparent'}`, background: on ? 'var(--lav-50)' : '#fff' }}>
                 <div className="row" style={{ justifyContent: 'space-between' }}>
                   <strong style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: 'var(--lav-800)' }}>{r.nombre}</strong>
-                  <AnimatePresence>{on && <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} transition={spring} className="card-icon" style={{ width: 34, height: 34, borderRadius: 12, background: 'var(--lav-500)', color: '#fff' }}><Check size={20} strokeWidth={3} /></motion.span>}</AnimatePresence>
+                  <AnimatePresence>{on && <motion.span initial={{ scale: 0.5 }} animate={{ scale: 1 }} transition={spring} className="card-icon" style={{ width: 34, height: 34, borderRadius: 12, background: 'var(--lav-500)', color: '#fff' }}><Check size={20} strokeWidth={3} /></motion.span>}</AnimatePresence>
                 </div>
                 <p className="small muted" style={{ margin: '8px 0 0' }}>{r.desc}</p>
               </motion.button>
@@ -311,7 +311,7 @@ function PasoSemantico({ t, ut }: { t: TestData; ut: UT }) {
           const partes = s.pregunta.split('___')
           return (
             <motion.div key={s.id} className="card" style={{ padding: 18, boxShadow: 'none', border: '2px solid var(--lav-100)' }}
-              initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}>
+              initial={{ y: 12 }} animate={{ y: 0 }} transition={{ delay: idx * 0.05 }}>
               <div className="row" style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 500, color: 'var(--lav-800)', gap: 8 }}>
                 {partes.map((p, i) => (
                   <span key={i} className="row" style={{ gap: 8 }}>
@@ -399,7 +399,7 @@ function PasoFonologico({ t, ut }: { t: TestData; ut: UT }) {
                   </div>
                   <AnimatePresence initial={false}>
                     {r.estado === 'error' && (
-                      <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} style={{ overflow: 'hidden' }}>
+                      <div className="entrar">
                         <input className="input" style={{ marginTop: 12, minHeight: 50 }} placeholder="¿Cómo lo dijo?" value={r.emision}
                           onChange={(e) => ut((x) => { x.fonemas[f.n].emision = e.target.value })} />
                         <div className="pos-grid">
@@ -415,7 +415,7 @@ function PasoFonologico({ t, ut }: { t: TestData; ut: UT }) {
                             </div>
                           ))}
                         </div>
-                      </motion.div>
+                      </div>
                     )}
                   </AnimatePresence>
                 </motion.div>

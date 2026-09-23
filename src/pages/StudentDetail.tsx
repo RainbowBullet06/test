@@ -90,7 +90,7 @@ export default function StudentDetail() {
               {evals?.map((e) => {
                 const p = Math.round(progresoPrueba(e.test) * 100)
                 return (
-                  <motion.div key={e.id} variants={riseItem} layout exit={{ opacity: 0, x: -30 }} className="list-item">
+                  <motion.div key={e.id} variants={riseItem} className="list-item">
                     <span className="card-icon" style={{ background: 'var(--lav-100)', color: 'var(--lav-600)' }}><CalendarDays size={24} /></span>
                     <div style={{ flex: 1, minWidth: 160 }}>
                       <div className="li-title">{fechaLarga(e.fecha)}</div>

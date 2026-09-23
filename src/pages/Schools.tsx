@@ -43,7 +43,7 @@ export default function Schools() {
       />
 
       {schools && schools.length === 0 ? (
-        <motion.div className="card empty" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
+        <motion.div className="card empty" initial={{ scale: 0.95 }} animate={{ scale: 1 }}>
           <Mascot size={130} mood="wave" />
           <h3>Agrega tu primera escuela</h3>
           <p>Primero registra la escuela; después podrás dar de alta a sus alumnos.</p>
@@ -53,7 +53,7 @@ export default function Schools() {
         <motion.div className="grid grid-2" variants={stagger} initial="hidden" animate="show">
           <AnimatePresence>
             {schools?.map((s) => (
-              <motion.div key={s.id} variants={riseItem} layout exit={{ opacity: 0, scale: 0.9 }} className="card" whileHover={{ y: -4 }}>
+              <motion.div key={s.id} variants={riseItem} className="card" whileHover={{ y: -4 }}>
                 <div className="row" style={{ alignItems: 'flex-start', flexWrap: 'nowrap' }}>
                   <span className="avatar" style={{ background: avatarColor(s.nombre), width: 62, height: 62, borderRadius: 20 }}>{iniciales(s.nombre)}</span>
                   <div style={{ flex: 1, minWidth: 0 }}>

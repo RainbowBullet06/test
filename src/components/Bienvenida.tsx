@@ -60,14 +60,14 @@ export default function Bienvenida({ alTerminar }: { alTerminar: () => void }) {
   const puedeSeguir = actual === 'nombre' ? nombre.trim().length > 2 : actual === 'carpeta' ? !!carpeta : true
 
   return (
-    <motion.div className="bienvenida" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+    <div className="bienvenida">
       <motion.div className="bienvenida-caja" initial={{ y: 40, scale: 0.96 }} animate={{ y: 0, scale: 1 }} transition={spring}>
         <div className="bienvenida-puntos">
           {pasos.map((p, i) => <motion.span key={p} animate={{ width: i === paso ? 34 : 12, background: i <= paso ? '#7445d6' : '#d8c8ff' }} />)}
         </div>
 
-        <AnimatePresence mode="wait">
-          <motion.div key={actual} initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} transition={{ type: 'spring', stiffness: 260, damping: 26 }}>
+        <AnimatePresence initial={false}>
+          <motion.div key={actual} initial={{ x: 40 }} animate={{ x: 0 }} transition={{ type: 'spring', stiffness: 260, damping: 26 }}>
             {actual === 'nombre' && (
               <div className="bienvenida-paso">
                 <Mascot size={150} mood="wave" />
@@ -105,7 +105,7 @@ export default function Bienvenida({ alTerminar }: { alTerminar: () => void }) {
                 {!carpeta && sugerida && <p className="small muted">Recomendada: {sugerida}</p>}
                 <AnimatePresence>
                   {respaldo && (
-                    <motion.div className="suggest" style={{ textAlign: 'left', width: '100%' }} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                    <motion.div className="suggest" style={{ textAlign: 'left', width: '100%' }} initial={{ y: 10 }} animate={{ y: 0 }}>
                       <div className="suggest-head"><RotateCcw size={18} /> Encontramos un respaldo en esta carpeta</div>
                       <p>{respaldo.students.length} alumnos y {respaldo.evaluations.length} evaluaciones, guardado el {new Date(respaldo.generado).toLocaleString('es-MX')}.</p>
                       {restaurado
@@ -154,6 +154,6 @@ export default function Bienvenida({ alTerminar }: { alTerminar: () => void }) {
           )}
         </div>
       </motion.div>
-    </motion.div>
+    </div>
   )
 }

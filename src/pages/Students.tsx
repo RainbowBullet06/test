@@ -72,7 +72,7 @@ export default function Students() {
             <motion.div className="list" variants={stagger} initial="hidden" animate="show">
               <AnimatePresence>
                 {lista?.map((s) => (
-                  <motion.div key={s.id} variants={riseItem} layout exit={{ opacity: 0, x: -30 }}>
+                  <motion.div key={s.id} variants={riseItem} layout>
                     <Link to={`/alumnos/${s.id}`} className="list-item clickable">
                       <motion.span className="avatar" style={{ background: avatarColor(s.nombre) }} whileHover={{ rotate: -8, scale: 1.08 }}>{iniciales(s.nombre)}</motion.span>
                       <div style={{ flex: 1, minWidth: 0 }}>

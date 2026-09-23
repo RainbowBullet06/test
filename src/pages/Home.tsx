@@ -38,7 +38,7 @@ export default function Home() {
 
   return (
     <>
-      <motion.div className="hero" initial={{ opacity: 0, y: 20, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: 'spring', stiffness: 200, damping: 22 }}>
+      <motion.div className="hero" initial={{ y: 20, scale: 0.98 }} animate={{ y: 0, scale: 1 }} transition={{ type: 'spring', stiffness: 200, damping: 22 }}>
         <Star size={30} style={{ position: 'absolute', top: 22, right: '38%' }} />
         <Star size={18} color="#b8ecff" style={{ position: 'absolute', bottom: 26, right: 200 }} />
         <div style={{ position: 'relative' }}>

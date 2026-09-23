@@ -125,7 +125,7 @@ export default function Settings() {
         <Referentes />
       </Card>
 
-      <motion.p className="small muted" style={{ textAlign: 'center', marginTop: 30 }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
+      <motion.p className="small muted" style={{ textAlign: 'center', marginTop: 30 }}>
         Evaluaciones de Comunicación · versión {__APP_VERSION__}
       </motion.p>
       {node}

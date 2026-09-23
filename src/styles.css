@@ -386,9 +386,9 @@ h1, h2, h3, h4 { font-family: var(--font-display); margin: 0; letter-spacing: -0
 .grid > .card + .card { margin-top: 0; }
 
 /* ---------- Bienvenida (configuración inicial) ---------- */
-.bienvenida { position: fixed; inset: 0; z-index: 150; display: grid; place-items: center; padding: 16px;
+.bienvenida { position: fixed; inset: 0; z-index: 150; overflow-x: hidden; display: grid; place-items: center; padding: 16px;
   background: radial-gradient(900px 600px at 80% 0%, #d8c8ff, transparent 60%), linear-gradient(160deg, #f6f2ff, #e9dfff); overflow-y: auto; }
-.bienvenida-caja { width: min(560px, 100%); background: #fff; border-radius: 36px; padding: 30px 30px 24px;
+.bienvenida-caja { overflow: hidden; width: min(560px, 100%); background: #fff; border-radius: 36px; padding: 30px 30px 24px;
   box-shadow: 0 40px 80px -30px rgba(67,35,127,.55); }
 .bienvenida-paso { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
 .bienvenida-paso h1 { font-size: clamp(1.6rem, 5vw, 2.1rem); color: var(--lav-800); }
@@ -431,3 +431,39 @@ h1, h2, h3, h4 { font-family: var(--font-display); margin: 0; letter-spacing: -0
   font-family: var(--font-display); box-shadow: 0 20px 40px -16px rgba(43,26,77,.7); width: max-content; max-width: calc(100vw - 24px); }
 @media (min-width: 901px) { .aviso-actualizacion { bottom: 24px; } }
 .estado-respaldo { display: inline-flex; align-items: center; gap: 6px; justify-content: center; }
+
+/* ---------- Animaciones continuas en CSS (las ejecuta el compositor, no JavaScript) ---------- */
+.backdrop .blob { animation: flotar 20s ease-in-out infinite; will-change: transform; }
+@keyframes flotar {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, -30px) scale(1.08); }
+  66% { transform: translate(-20px, 20px) scale(.96); }
+}
+.mascota { animation: mascota-flota 3.2s ease-in-out infinite; overflow: visible; }
+.mascota.festeja { animation: mascota-festeja .9s ease-in-out infinite; }
+@keyframes mascota-flota { 0%, 100% { translate: 0 0; } 50% { translate: 0 -6%; } }
+@keyframes mascota-festeja { 0%, 100% { translate: 0 0; rotate: 0deg; } 40% { translate: 0 -10%; rotate: -6deg; } 70% { rotate: 6deg; } }
+.estrella { animation: estrella 4s ease-in-out infinite; }
+@keyframes estrella { 0%, 100% { rotate: 0deg; scale: 1; } 35% { rotate: 15deg; scale: 1.12; } 70% { rotate: -10deg; } }
+.parpadeo { animation: parpadeo 1.2s ease-in-out infinite; }
+@keyframes parpadeo { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
+
+/* ---------- Modo ligero en celulares ----------
+   Los desenfoques sobre contenido en movimiento son lo más costoso para el procesador gráfico de un
+   teléfono y retrasan toda la app. En pantallas táctiles/angostas se usa un fondo fijo y sin desenfoques. */
+@media (max-width: 900px), (pointer: coarse) {
+  .backdrop .blob, .backdrop .grain { display: none; }
+  .topbar, .bottombar, .wizard-nav, .modal-bg { backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .topbar { background: rgba(246, 242, 255, .97); }
+  .bottombar { background: #43237f; }
+  .wizard-nav { background: rgba(255, 255, 255, .97); }
+  .modal-bg { background: rgba(43, 26, 77, .55); }
+  .progress > div::after { animation: none; }
+}
+
+/* Entrada rápida en CSS para ventanas y notificaciones: no bloquea la interfaz */
+.entrar { animation: entrar .22s cubic-bezier(.22, 1, .36, 1) both; }
+@keyframes entrar { from { transform: translateY(18px) scale(.97); } }
+.toast.entrar { animation-name: entrar-arriba; }
+@keyframes entrar-arriba { from { transform: translateY(-16px) scale(.95); } }
+@media (prefers-reduced-motion: reduce) { .entrar { animation: none; } }

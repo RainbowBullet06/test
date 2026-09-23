@@ -14,7 +14,7 @@ export default function Actualizacion() {
   return (
     <AnimatePresence>
       {hayNueva && (
-        <motion.div className="aviso-actualizacion" initial={{ y: 80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 80, opacity: 0 }} transition={spring}>
+        <motion.div className="aviso-actualizacion" initial={{ y: 80 }} animate={{ y: 0 }} transition={spring}>
           <RefreshCw size={22} />
           <span>Hay una versión nueva de la app.</span>
           <Btn size="sm" variant="sun" onClick={() => updateServiceWorker(true)}>Actualizar</Btn>

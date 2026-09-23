@@ -12,8 +12,8 @@ export function QR({ texto, tam = 260 }: { texto: string; tam?: number }) {
       .catch(() => setSrc(''))
   }, [texto, tam])
   return (
-    <motion.div className="qr-marco" style={{ width: tam + 28 }} initial={{ scale: 0.8, rotate: -4, opacity: 0 }}
-      animate={{ scale: 1, rotate: 0, opacity: 1 }} transition={{ type: 'spring', stiffness: 260, damping: 18 }}>
+    <motion.div className="qr-marco" style={{ width: tam + 28 }} initial={{ scale: 0.8, rotate: -4 }}
+      animate={{ scale: 1, rotate: 0 }} transition={{ type: 'spring', stiffness: 260, damping: 18 }}>
       {src && <img src={src} width={tam} height={tam} alt="Código QR" />}
     </motion.div>
   )

@@ -102,21 +102,21 @@ export default function App() {
       <main className="main">
         <AnimatePresence>
           {esPC && respaldo.error && cfg?.configurado && (
-            <motion.div className="aviso-respaldo" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+            <motion.div className="aviso-respaldo" initial={{ y: -10 }} animate={{ y: 0 }}>
               <AlertTriangle size={22} />
               <span>{respaldo.error}</span>
               <Btn size="sm" variant="sun" onClick={() => navigate('/ajustes')}>Revisar</Btn>
             </motion.div>
           )}
         </AnimatePresence>
-        <AnimatePresence mode="wait">
+        {/* la pantalla nueva aparece de inmediato (sin esperar la salida de la anterior) */}
+        <AnimatePresence initial={false}>
           <motion.div
             key={location.pathname}
             className="page"
-            initial={{ opacity: 0, y: 18, filter: 'blur(6px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, y: -12, filter: 'blur(4px)' }}
-            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ y: 14 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
           >
             <Routes location={location}>
               <Route path="/" element={<Home />} />
@@ -142,7 +142,7 @@ export default function App() {
         {TABS.slice(2).map((n) => <Tab key={n.to} {...n} active={isActive(n.to, n.end)} />)}
       </nav>
 
-      <AnimatePresence>{mostrarBienvenida && <Bienvenida alTerminar={() => setBienvenidaCerrada(true)} />}</AnimatePresence>
+      {mostrarBienvenida && <Bienvenida alTerminar={() => setBienvenidaCerrada(true)} />}
       {esWeb && !esPC && <Actualizacion />}
     </div>
   )
